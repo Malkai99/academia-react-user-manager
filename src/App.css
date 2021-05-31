@@ -24,6 +24,10 @@
     margin-left: 1rem;
 }
 
+.user-lastname{
+    margin: 0 5px;
+}
+
 .add-user-modal {
     background-color: white;
     width: 50%;
@@ -42,3 +46,18 @@
     justify-content: flex-end;
 }
 
+.avatar__container{
+    border-radius: 50%;
+    border: 2px solid red;
+}
+.avatar__container.is_active{
+    border: 2px solid green;
+}
+
+.right-side{
+    display: flex;
+}
+
+.active__container.hidden{
+    display: none;
+}

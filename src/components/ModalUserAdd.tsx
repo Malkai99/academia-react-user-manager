@@ -11,17 +11,22 @@ interface IProps{
 }
 
 const ModalUserAdd = ({ modal, setModal, currentIndex, setCurrentIndex, usersList, setUserList }: IProps)  => {
-  const inputName = useRef(null);
-  const inputLastName = useRef(null);
-  const inputEmail = useRef(null);
+  const inputName = (document.getElementById('input_name') as HTMLInputElement);
+  const inputLastName = (document.getElementById('input_lastname') as HTMLInputElement);
+  const inputEmail = (document.getElementById('input_email') as HTMLInputElement);
+  const [nameProps, setnameProps] = useState({error: true})
   let userInfo = {
-    id: currentIndex+1,
+    id: 0,
     avatar: "https://i.pinimg.com/originals/7e/67/eb/7e67eb044ae737a98b8779c6332dc179.jpg",
     name: '',
     lastname: '',
     email: '',
   };
   const [user, setUser] = useState(userInfo)
+
+  useEffect(() => {
+    setUser({...user, id: currentIndex});
+  }, [currentIndex]);
 
   useEffect(() => {
     console.log('current index ', currentIndex)
@@ -40,12 +45,22 @@ const ModalUserAdd = ({ modal, setModal, currentIndex, setCurrentIndex, usersLis
   }
 
   function cleanInputs() {
-    (document.getElementById('input_name') as HTMLInputElement).value = '';
-    (document.getElementById('input_lastname') as HTMLInputElement).value = '';
-    (document.getElementById('input_email') as HTMLInputElement).value = '';
+    inputName.value = '';
+    inputLastName.value = '';
+    inputEmail.value = '';
+  }
+
+  function validateForm(): boolean {
+    if(user.name != '' && user.lastname != '' && user.email != ''){
+      return true;
+    }
+    setnameProps({error: true})
+    console.log('se modifcaron los prop ', nameProps)
+    return false;
   }
 
   function addNewUser() {
+    if(!validateForm()) return alert('Los campos no estan llenos')
     setCurrentIndex(currentIndex + 1);
     console.log('this is the user ', user)
     setUserList([...usersList, user])
@@ -58,9 +73,10 @@ const ModalUserAdd = ({ modal, setModal, currentIndex, setCurrentIndex, usersLis
           <div className="add-user-modal">
             <h1>Agregar Usuario</h1>
             <div>
-              <TextField id='input_name' inputRef={inputName} onChange={(e) => handleInputs(e,'name')} className="user-modal-input" variant="outlined" label="first name"></TextField>
-              <TextField id='input_lastname' inputRef={inputLastName} onChange={(e) => handleInputs(e,'lastname')} className="user-modal-input" variant="outlined" label="last name"></TextField>
-              <TextField id='input_email' inputRef={inputEmail} onChange={(e) => handleInputs(e,'email')} className="user-modal-input" variant="outlined" label="email"></TextField>
+              {/* inputProps={nameProps} */}
+              <TextField error  required id='input_name' onChange={(e) => handleInputs(e,'name')} className="user-modal-input" variant="outlined" label="first name"></TextField>
+              <TextField required id='input_lastname' onChange={(e) => handleInputs(e,'lastname')} className="user-modal-input" variant="outlined" label="last name"></TextField>
+              <TextField required id='input_email' onChange={(e) => handleInputs(e,'email')} className="user-modal-input" variant="outlined" label="email"></TextField>
             </div>
 
             <div className="actions">
