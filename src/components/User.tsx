@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { Button, Paper, Avatar, Tooltip, IconButton } from '@material-ui/core';
 import { Delete, Close, Done } from '@material-ui/icons';
 import { useUsersList } from '../hooks/useUsersList'
+import UserContext from '../context/userContext'
 
 interface IProps{
     userInfo: any;
@@ -10,8 +11,7 @@ interface IProps{
 }
 
 const User = ({ userInfo, usersList, modifyUserList }: IProps) => {
-
-    const { deleteUser, modifyUserState } = useUsersList();
+    const { usersData, deleteUser, modifyUserState  }:any = useContext(UserContext);
 
     function handleDelete(id:any) {
         deleteUser(id);

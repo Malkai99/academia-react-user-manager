@@ -6,5 +6,5 @@ const router = jsonServer.router('db.json')
 const middlewares = jsonServer.defaults()
 
 server.listen(5000, () => {
-  console.log('JSON Server is running');
+  // console.log('JSON Server is running');
 });

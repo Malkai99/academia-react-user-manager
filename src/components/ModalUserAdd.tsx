@@ -5,18 +5,17 @@ import { useUsersList } from '../hooks/useUsersList'
 interface IProps{
     modal: any;
     setModal: any;
-    currentIndex: any;
-    setCurrentIndex: any;
     usersList: any;
     setUserList: any;
 }
 
-const ModalUserAdd = ({ modal, setModal, currentIndex, setCurrentIndex, usersList, setUserList }: IProps)  => {
+const ModalUserAdd = ({ modal, setModal, usersList, setUserList }: IProps)  => {
   const { addUser } = useUsersList();
   const inputName = (document.getElementById('input_name') as HTMLInputElement);
   const inputLastName = (document.getElementById('input_lastname') as HTMLInputElement);
   const inputEmail = (document.getElementById('input_email') as HTMLInputElement);
   const [nameProps, setnameProps] = useState({error: true})
+  const [currentIndex, setCurrentIndex] = useState(0)
   let userInfo = {
     id: 0,
     avatar: "https://i.pinimg.com/originals/7e/67/eb/7e67eb044ae737a98b8779c6332dc179.jpg",
@@ -27,12 +26,13 @@ const ModalUserAdd = ({ modal, setModal, currentIndex, setCurrentIndex, usersLis
   const [user, setUser] = useState(userInfo)
 
   useEffect(() => {
+    setCurrentIndex(usersList.length + 1)
+  }, [usersList]);
+
+  useEffect(() => {
     setUser({...user, id: currentIndex});
   }, [currentIndex]);
 
-  useEffect(() => {
-    console.log('current index ', currentIndex)
-  }, [currentIndex]);
 
   function handleInputs(event:any, target:string) {
     if(target === 'name'){
@@ -57,16 +57,15 @@ const ModalUserAdd = ({ modal, setModal, currentIndex, setCurrentIndex, usersLis
       return true;
     }
     setnameProps({error: true})
-    console.log('se modifcaron los prop ', nameProps)
+    // console.log('se modifcaron los prop ', nameProps)
     return false;
   }
 
   function addNewUser() {
     if(!validateForm()) return alert('Los campos no estan llenos')
-    console.log('this is the user ', user)
-    addUser(user);
-    setCurrentIndex(currentIndex + 1);
+    // console.log('this is the user ', user)
     setUserList([...usersList, user])
+    addUser(user);
     cleanInputs();
     setModal(!modal);
   }
