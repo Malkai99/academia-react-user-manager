@@ -11,8 +11,8 @@ interface IProps{
 }
 
 const ModalUserAdd = ({ modal, setModal, setUserList }: IProps)  => {
-  const { addUser } = useUsersList();
-  const { usersList }:any = useContext(UserContext)
+  // const { addUser } = useUsersList();
+  const { usersList, addUser }:any = useContext(UserContext)
   const inputName = (document.getElementById('input_name') as HTMLInputElement);
   const inputLastName = (document.getElementById('input_lastname') as HTMLInputElement);
   const inputEmail = (document.getElementById('input_email') as HTMLInputElement);
