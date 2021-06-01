@@ -1,9 +1,17 @@
-import { AddToQueueSharp } from '@material-ui/icons';
 import { useState, useEffect} from 'react'
-import UsersList from '../components/UsersList';
+
+interface User {
+    id: number,
+    active: boolean,
+    avatar: string,
+    name: string,
+    lastname: string,
+    email: string,
+  
+}
 
 export const useUsersList = () => {
-    const [usersData, setUserData] = useState([]);
+    const [usersList, setUserData] = useState<User[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const urlToFetch = "http://localhost:3001/users"
@@ -28,10 +36,10 @@ export const useUsersList = () => {
     }, []);
 
     useEffect(() => {
-        console.log('se movio user data ', usersData)
-    }, [usersData]);
+        console.log('se movio user data ', usersList)
+    }, [usersList]);
 
-    function addUser(user:any){
+    function addUser(user:User){
         fetch(urlToFetch, {
             method: "POST",
             headers: {
@@ -41,12 +49,8 @@ export const useUsersList = () => {
         })
         .then(
             (result) => {
-                setUserData([...usersData, user])
-            },
-            (error) => {
-                setError(error)
+                setUserData([...usersList, user])
             }
-
         )
     }
 
@@ -60,7 +64,7 @@ export const useUsersList = () => {
     }
 
     function modifyUserState(id:number, isActive: boolean){
-        let user = usersData.filter((user:any) => {
+        let user = usersList.filter((user:any) => {
             if(user.id == id){
                 user.active = isActive
                 return user
@@ -75,5 +79,5 @@ export const useUsersList = () => {
         })
     }
 
-    return { usersData, addUser, deleteUser, modifyUserState};
+    return { usersList, addUser, deleteUser, modifyUserState};
 }

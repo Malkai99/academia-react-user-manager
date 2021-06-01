@@ -1,14 +1,17 @@
 import UsersProvider from './components/usersProvider'
 import Layout from './components/Layout'
+import { useUsersList } from './hooks/useUsersList'
+import UserContext from './context/userContext'
 
 
 function App() {
-
+  const initialValue = useUsersList()
+  console.log('initial value ', initialValue)
 
   return (
-    <UsersProvider>
+    <UserContext.Provider value={initialValue}>
       <Layout />
-    </UsersProvider>
+    </UserContext.Provider>
   );
 }
 

@@ -19,19 +19,19 @@ interface User {
 }
 
 const Layout = () => {
-  const { usersData  }:any = useContext(UserContext);
+  const { usersList  }:any = useContext(UserContext);
 
 //   console.log('contexto ', useContext(UserContext))
 
 
   // const [state, dispatch] = useReducer(reducer, initialArray)
   const [openModal, setModal] = useState(false);
-  const [usersList, setUserList] = useState([]);
+  const [usersTest, setUserList] = useState([]);
 
 
   useEffect(() => {
-    setUserList(usersData)
-  }, [usersData]);
+    console.log('entro al user data ', usersList)
+  }, [usersList]);
 
   useEffect(() => {
     // console.log('refresh ', usersList)
@@ -44,7 +44,7 @@ const Layout = () => {
   return (
     <>
       <div className="app-header">    
-        <h1>User Manager {usersData.length}</h1>
+        <h1>User Manager {usersList.length}</h1>
         <Button variant="contained" color="primary" onClick={handleModal} >Agregar</Button>
       </div>
       <UsersList modifyUserList={setUserList} />

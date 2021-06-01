@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import { Button, Modal, TextField } from '@material-ui/core';
 import { useUsersList } from '../hooks/useUsersList'
+import UserContext from '../context/userContext'
 
 interface IProps{
     modal: any;
@@ -9,8 +10,9 @@ interface IProps{
     setUserList: any;
 }
 
-const ModalUserAdd = ({ modal, setModal, usersList, setUserList }: IProps)  => {
+const ModalUserAdd = ({ modal, setModal, setUserList }: IProps)  => {
   const { addUser } = useUsersList();
+  const { usersList }:any = useContext(UserContext)
   const inputName = (document.getElementById('input_name') as HTMLInputElement);
   const inputLastName = (document.getElementById('input_lastname') as HTMLInputElement);
   const inputEmail = (document.getElementById('input_email') as HTMLInputElement);
@@ -18,6 +20,7 @@ const ModalUserAdd = ({ modal, setModal, usersList, setUserList }: IProps)  => {
   const [currentIndex, setCurrentIndex] = useState(0)
   let userInfo = {
     id: 0,
+    active: false,
     avatar: "https://i.pinimg.com/originals/7e/67/eb/7e67eb044ae737a98b8779c6332dc179.jpg",
     name: '',
     lastname: '',

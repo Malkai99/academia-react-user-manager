@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Button, Paper, Avatar, Tooltip, IconButton } from '@material-ui/core';
-import { Delete, Close, Done } from '@material-ui/icons';
 import User from './User';
 import UserContext from '../context/userContext'
 interface IProps{
@@ -9,27 +7,29 @@ interface IProps{
 
 const UsersList = ({ modifyUserList }:IProps) => {
 
-    const { usersData  }:any = useContext(UserContext);
+    const { usersList  }:any = useContext(UserContext);
 
     useEffect(() => {
-        console.log('useeffect ', usersData);
+        console.log('useeffect ', usersList);
         // refreshUsersList(usersList);
         // setUserRefresh(true);
-    }, [usersData])
+    }, [usersList])
 
     function getUserList():any{
+        console.log('ejecuta getuserslist')
         return(
-            usersData.map( (user:any) => {
-                return <User key={user.id} userInfo={user} usersList={usersData} modifyUserList={modifyUserList} />
+            usersList.map( (user:any) => {
+                return <User key={user.id} userInfo={user} usersList={usersList} modifyUserList={modifyUserList} />
             })  
-        );
+            );
     }
+    console.log('user list ', usersList)
 
     return (
 
         <div className="users-list">
             {
-               usersData && getUserList()
+               usersList && getUserList()
             }
         </div>
     )
