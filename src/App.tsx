@@ -4,6 +4,7 @@ import UsersList from './components/UsersList';
 import ModalAddUser from './components/ModalUserAdd'
 import { reducer } from './context/userReducer'
 import { useUsersList } from './hooks/useUsersList'
+import UsersProvider  from './components/usersProvider'
 import './App.css';
 
 interface User {
@@ -17,6 +18,7 @@ interface User {
 }
 
 function App() {
+
   const { usersData } = useUsersList()
 
   console.log('use get user ', usersData)
@@ -28,7 +30,7 @@ function App() {
   const [openModal, setModal] = useState(false);
   const [usersList, setUserList] = useState([]);
 
-  // const context = useContext();
+
 
   useEffect(() => {
     setUserList(usersData)
@@ -43,16 +45,16 @@ function App() {
   }
 
   return (
-    <>
-      <div className="app-header">        
-        <h1>User Manager (4)</h1>
+    <UsersProvider>
+      <div className="app-header">    
+        <h1>User Manager {usersData.length}</h1>
         <Button variant="contained" color="primary" onClick={handleModal} >Agregar</Button>
       </div>
     
-      <UsersList usersList={usersList} modifyUserList={setUserList} />
+      <UsersList usersList={usersData} modifyUserList={setUserList} />
 
-      <ModalAddUser usersList={usersList} setUserList={setUserList} modal={openModal} setModal={setModal} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />
-    </>
+      <ModalAddUser usersList={usersData} setUserList={setUserList} modal={openModal} setModal={setModal} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />
+    </UsersProvider>
   );
 }
 

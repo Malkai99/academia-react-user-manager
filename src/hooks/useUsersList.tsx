@@ -5,20 +5,31 @@ import userContext from '../context/userContext';
 
 export const useUsersList = () => {
     const [usersData, setUserList] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch("http://localhost:3001/users")
-           .then( res => res.json())
-           .then(
-               (result) => {
-                   setUserList(result)
-               },
-               (error) => {
-                   setError(error)
-               }
-           )
+        const fetchData = async () => {
+            setIsLoading(true);
+            fetch("http://localhost:3001/users")
+               .then( res => res.json())
+               .then(
+                   (result) => {
+                       setUserList(result)
+                       setIsLoading(false)
+                   },
+                   (error) => {
+                       setError(error)
+                   }
+               )
+
+        }
+        fetchData()
     }, []);
+
+    // useEffect(() => {
+    //     fetchData
+    // }, [usersData]);
 
     function addUser(user:any){
         fetch("http://localhost:3001/users", {

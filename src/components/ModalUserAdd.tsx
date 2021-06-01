@@ -77,7 +77,7 @@ const ModalUserAdd = ({ modal, setModal, currentIndex, setCurrentIndex, usersLis
             <h1>Agregar Usuario</h1>
             <div>
               {/* inputProps={nameProps} */}
-              <TextField error  required id='input_name' onChange={(e) => handleInputs(e,'name')} className="user-modal-input" variant="outlined" label="first name"></TextField>
+              <TextField required id='input_name' onChange={(e) => handleInputs(e,'name')} className="user-modal-input" variant="outlined" label="first name"></TextField>
               <TextField required id='input_lastname' onChange={(e) => handleInputs(e,'lastname')} className="user-modal-input" variant="outlined" label="last name"></TextField>
               <TextField required id='input_email' onChange={(e) => handleInputs(e,'email')} className="user-modal-input" variant="outlined" label="email"></TextField>
             </div>
