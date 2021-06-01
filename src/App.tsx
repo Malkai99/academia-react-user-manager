@@ -1,10 +1,14 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useReducer } from 'react';
 import { Button, Modal, TextField } from '@material-ui/core';
 import UsersList from './components/UsersList';
 import ModalAddUser from './components/ModalUserAdd'
+import { reducer } from './context/userReducer'
+import { useUsersList } from './hooks/useUsersList'
 import './App.css';
 
 interface User {
+  id: number,
+  active: boolean,
   avatar: string,
   name: string,
   lastname: string,
@@ -13,16 +17,22 @@ interface User {
 }
 
 function App() {
-  const initialArray = [
-    {id:1, active:false, avatar: "https://i.pinimg.com/originals/7e/67/eb/7e67eb044ae737a98b8779c6332dc179.jpg", name: 'Santiago', lastname: 'Ortega', email: '(test@test.com)'},
-    {id:2, active:false, avatar: "https://i.pinimg.com/originals/7e/67/eb/7e67eb044ae737a98b8779c6332dc179.jpg", name: 'Rodrigo', lastname: 'Perez', email: '(test@test.com)'},
-    {id:3, active:false, avatar: "https://i.pinimg.com/originals/7e/67/eb/7e67eb044ae737a98b8779c6332dc179.jpg", name: 'Kevin', lastname: 'Oyervides', email: '(test@test.com)'},
-    {id:4, active:false, avatar: "https://i.pinimg.com/originals/7e/67/eb/7e67eb044ae737a98b8779c6332dc179.jpg", name: 'Jose', lastname: 'Cordova', email: '(test@test.com)'}
-  ];
-  const [currentIndex, setCurrentIndex] = useState(initialArray.length+1)
+  const { usersData } = useUsersList()
+
+  console.log('use get user ', usersData)
+
+
+  // const [state, dispatch] = useReducer(reducer, initialArray)
+
+  const [currentIndex, setCurrentIndex] = useState(10+1)
   const [openModal, setModal] = useState(false);
-  const [usersList, setUserList] = useState(initialArray)
+  const [usersList, setUserList] = useState([]);
+
   // const context = useContext();
+
+  useEffect(() => {
+    setUserList(usersData)
+  }, [usersData]);
 
   useEffect(() => {
     console.log('refresh ', usersList)

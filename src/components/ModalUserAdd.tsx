@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Button, Modal, TextField } from '@material-ui/core';
+import { useUsersList } from '../hooks/useUsersList'
 
 interface IProps{
     modal: any;
@@ -11,6 +12,7 @@ interface IProps{
 }
 
 const ModalUserAdd = ({ modal, setModal, currentIndex, setCurrentIndex, usersList, setUserList }: IProps)  => {
+  const { addUser } = useUsersList();
   const inputName = (document.getElementById('input_name') as HTMLInputElement);
   const inputLastName = (document.getElementById('input_lastname') as HTMLInputElement);
   const inputEmail = (document.getElementById('input_email') as HTMLInputElement);
@@ -30,7 +32,7 @@ const ModalUserAdd = ({ modal, setModal, currentIndex, setCurrentIndex, usersLis
 
   useEffect(() => {
     console.log('current index ', currentIndex)
-  }, []);
+  }, [currentIndex]);
 
   function handleInputs(event:any, target:string) {
     if(target === 'name'){
@@ -61,9 +63,10 @@ const ModalUserAdd = ({ modal, setModal, currentIndex, setCurrentIndex, usersLis
 
   function addNewUser() {
     if(!validateForm()) return alert('Los campos no estan llenos')
-    setCurrentIndex(currentIndex + 1);
     console.log('this is the user ', user)
-    setUserList([...usersList, user])
+    addUser(user);
+    setCurrentIndex(currentIndex + 1);
+    // setUserList([...usersList, user])
     cleanInputs();
     setModal(!modal);
   }
