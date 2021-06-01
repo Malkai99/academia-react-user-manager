@@ -66,7 +66,7 @@ const ModalUserAdd = ({ modal, setModal, currentIndex, setCurrentIndex, usersLis
     console.log('this is the user ', user)
     addUser(user);
     setCurrentIndex(currentIndex + 1);
-    // setUserList([...usersList, user])
+    setUserList([...usersList, user])
     cleanInputs();
     setModal(!modal);
   }

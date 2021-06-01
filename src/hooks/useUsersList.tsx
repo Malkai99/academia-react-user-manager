@@ -1,6 +1,7 @@
 import { AddToQueueSharp } from '@material-ui/icons';
 import { useState, useEffect} from 'react'
 import UsersList from '../components/UsersList';
+import userContext from '../context/userContext';
 
 export const useUsersList = () => {
     const [usersData, setUserList] = useState([]);
@@ -20,7 +21,6 @@ export const useUsersList = () => {
     }, []);
 
     function addUser(user:any){
-        console.log('este es el fetch ', user)
         fetch("http://localhost:3001/users", {
             method: "POST",
             headers: {
@@ -28,6 +28,7 @@ export const useUsersList = () => {
             },
             body: JSON.stringify(user)
         })
+        setUserList(user)
     }
 
     function deleteUser(id:number){
@@ -40,12 +41,18 @@ export const useUsersList = () => {
     }
 
     function modifyUserState(id:number, isActive: boolean){
+        let user = usersData.filter((user:any) => {
+            if(user.id == id){
+                user.active = isActive
+                return user
+            }
+        })
         fetch(`http://localhost:3001/users/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({active: isActive})
+            body: JSON.stringify(user[0])
         })
     }
 

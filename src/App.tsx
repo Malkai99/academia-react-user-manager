@@ -24,7 +24,7 @@ function App() {
 
   // const [state, dispatch] = useReducer(reducer, initialArray)
 
-  const [currentIndex, setCurrentIndex] = useState(10+1)
+  const [currentIndex, setCurrentIndex] = useState(100)
   const [openModal, setModal] = useState(false);
   const [usersList, setUserList] = useState([]);
 
