@@ -1,14 +1,5 @@
 import { useState, useEffect} from 'react'
-
-interface User {
-    id: number,
-    active: boolean,
-    avatar: string,
-    name: string,
-    lastname: string,
-    email: string,
-  
-}
+import { User } from '../types/user.interface'
 
 export const useUsersList = () => {
     const [usersList, setUserData] = useState<User[]>([]);
@@ -16,10 +7,12 @@ export const useUsersList = () => {
     const [error, setError] = useState(null);
     const urlToFetch = "http://localhost:3001/users"
 
+
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = () => {
             setIsLoading(true);
             fetch(urlToFetch)
+               .then(checkFetch)
                .then( res => res.json())
                .then(
                    (result) => {
@@ -27,17 +20,30 @@ export const useUsersList = () => {
                        setIsLoading(false)
                    },
                    (error) => {
+                       console.log('Error', error)
                        setError(error)
                    }
                )
-
         }
         fetchData()
     }, []);
 
-    useEffect(() => {
-        console.log('se movio user data ', usersList)
-    }, [usersList]);
+    // useEffect(() => {
+    //     // console.log('se movio user data ', usersList)
+    // }, [usersList]);
+
+    // useEffect(() => {
+    //     console.log('error inside de catch ', error)
+    // }, [error]);
+    
+    function checkFetch(response:any) {
+        if (response.status >= 200 && response.status <= 299) {
+            return response;
+        } else {
+            let error = `${response.statusText} ${response.status}`
+            throw Error(error);
+        }
+    }
 
     function addUser(user:User){
         fetch(urlToFetch, {
@@ -47,9 +53,16 @@ export const useUsersList = () => {
             },
             body: JSON.stringify(user)
         })
+        .then(checkFetch)
         .then(
-            (result) => {
+            () => {
                 setUserData([...usersList, user])
+            }
+        )
+        .catch(
+            (error) => {
+                 console.log('error ', error)
+                 setError(error)
             }
         )
     }
@@ -61,11 +74,23 @@ export const useUsersList = () => {
                 "Content-Type": "application/json"
             },
         })
+        .then(checkFetch)
+        .then(
+            () => {
+                setUserData(usersList.filter((user:any) => user.id !== id))
+            }
+        )
+        .catch(
+            (error) => {
+                 console.log('error ', error)
+                 setError(error)
+            }
+        )
     }
 
     function modifyUserState(id:number, isActive: boolean){
         let user = usersList.filter((user:any) => {
-            if(user.id == id){
+            if(user.id === id){
                 user.active = isActive
                 return user
             }
@@ -75,9 +100,21 @@ export const useUsersList = () => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(user[0])
+            // body: JSON.stringify(user[0])
         })
+        .then(checkFetch)
+        .then(res => res.json())
+        .then(
+            (result) => {
+                setUserData(
+                    usersList.filter( (user:any) => {
+                        return user.id === result.id ? {...user, active: isActive} : user;
+                    })
+                )
+            }
+        )
+
     }
 
-    return { usersList, addUser, deleteUser, modifyUserState};
+    return { usersList, error, isLoading, addUser, deleteUser, modifyUserState};
 }

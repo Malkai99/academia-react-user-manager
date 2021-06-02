@@ -1,17 +1,14 @@
-import { useState, useRef, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Button, Modal, TextField } from '@material-ui/core';
-import { useUsersList } from '../hooks/useUsersList'
 import UserContext from '../context/userContext'
 
 interface IProps{
     modal: any;
     setModal: any;
-    usersList: any;
-    setUserList: any;
 }
 
-const ModalUserAdd = ({ modal, setModal, setUserList }: IProps)  => {
-  // const { addUser } = useUsersList();
+const ModalUserAdd = ({ modal, setModal }: IProps)  => {
+
   const { usersList, addUser }:any = useContext(UserContext)
   const inputName = (document.getElementById('input_name') as HTMLInputElement);
   const inputLastName = (document.getElementById('input_lastname') as HTMLInputElement);
@@ -56,18 +53,16 @@ const ModalUserAdd = ({ modal, setModal, setUserList }: IProps)  => {
   }
 
   function validateForm(): boolean {
-    if(user.name != '' && user.lastname != '' && user.email != ''){
+    if(user.name !== '' && user.lastname !== '' && user.email !== ''){
       return true;
     }
     setnameProps({error: true})
-    // console.log('se modifcaron los prop ', nameProps)
+    console.log('se modifcaron los prop ', nameProps)
     return false;
   }
 
   function addNewUser() {
     if(!validateForm()) return alert('Los campos no estan llenos')
-    // console.log('this is the user ', user)
-    setUserList([...usersList, user])
     addUser(user);
     cleanInputs();
     setModal(!modal);
@@ -79,7 +74,7 @@ const ModalUserAdd = ({ modal, setModal, setUserList }: IProps)  => {
             <h1>Agregar Usuario</h1>
             <div>
               {/* inputProps={nameProps} */}
-              <TextField required id='input_name' onChange={(e) => handleInputs(e,'name')} className="user-modal-input" variant="outlined" label="first name"></TextField>
+              <TextField inputProps={nameProps} required id='input_name' onChange={(e) => handleInputs(e,'name')} className="user-modal-input" variant="outlined" label="first name"></TextField>
               <TextField required id='input_lastname' onChange={(e) => handleInputs(e,'lastname')} className="user-modal-input" variant="outlined" label="last name"></TextField>
               <TextField required id='input_email' onChange={(e) => handleInputs(e,'email')} className="user-modal-input" variant="outlined" label="email"></TextField>
             </div>
