@@ -88,29 +88,32 @@ export const useUsersList = () => {
         )
     }
 
-    function modifyUserState(id:number, isActive: boolean){
-        let user = usersList.filter((user:any) => {
-            if(user.id === id){
-                user.active = isActive
-                return user
-            }
-        })
-        fetch(`${urlToFetch}/${id}`, {
+    function modifyUserState(user:User, isActive: boolean){
+        let updateUser = {...user, active: isActive}
+        fetch(`${urlToFetch}/${user.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
-            // body: JSON.stringify(user[0])
+            body: JSON.stringify(updateUser)
         })
         .then(checkFetch)
         .then(res => res.json())
         .then(
             (result) => {
-                setUserData(
-                    usersList.filter( (user:any) => {
-                        return user.id === result.id ? {...user, active: isActive} : user;
-                    })
-                )
+                const users = usersList.map( (user:any) => {
+                    if(user.id === result.id){
+                        user.active = isActive;
+                    }
+                    return user;
+                })
+                setUserData(users)
+            }
+        )
+        .catch(
+            (error) => {
+                 console.log('error ', error)
+                 setError(error)
             }
         )
 

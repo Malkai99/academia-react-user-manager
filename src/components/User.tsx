@@ -14,8 +14,8 @@ const User = ({ userInfo }: IProps) => {
         deleteUser(id);
     }
 
-    function handleActive(isActive: boolean, id:any){
-        modifyUserState(id,isActive);
+    function handleActive(isActive: boolean, user:any){
+        modifyUserState(user,isActive);
     }
 
     return (
@@ -34,14 +34,14 @@ const User = ({ userInfo }: IProps) => {
                 <div className="right-side">
                     <div className={`active__container ${!userInfo.active ? 'hidden' : ''}`}>
                         <Tooltip title="desactivar">
-                        <IconButton onClick={() => handleActive(false,userInfo.id)}>
+                        <IconButton onClick={() => handleActive(false,userInfo)}>
                             <Close></Close>
                         </IconButton>
                         </Tooltip>
                     </div>
                     <div className={`active__container ${userInfo.active ? 'hidden' : '' }`}>
                         <Tooltip title="activar">
-                        <IconButton onClick={() => handleActive(true,userInfo.id)}>
+                        <IconButton onClick={() => handleActive(true,userInfo)}>
                             <Done></Done>
                         </IconButton>
                         </Tooltip>
