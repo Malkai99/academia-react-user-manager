@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { Button, Modal, TextField } from '@material-ui/core';
 import UserContext from '../context/userContext'
-import { error } from 'console';
 
 interface IProps{
     modal: any;
