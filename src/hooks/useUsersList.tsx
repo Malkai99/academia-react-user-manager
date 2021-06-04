@@ -119,5 +119,25 @@ export const useUsersList = () => {
 
     }
 
-    return { usersList, error, isLoading, addUser, deleteUser, modifyUserState};
+    function getSingleUser(id:number){
+        return fetch(`${urlToFetch}/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+        .then(checkFetch)
+        .then( res => res.json())
+        .then(
+            (result) => {
+                return result;
+            },
+            (error) => {
+                console.log('Error', error)
+                setError(error)
+            }
+        )
+    }
+
+    return { usersList, error, isLoading, addUser, deleteUser, modifyUserState, getSingleUser};
 }

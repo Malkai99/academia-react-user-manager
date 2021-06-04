@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { Button, Modal, TextField } from '@material-ui/core';
 import UserContext from '../context/userContext'
+import { error } from 'console';
 
 interface IProps{
     modal: any;
@@ -13,7 +14,7 @@ const ModalUserAdd = ({ modal, setModal }: IProps)  => {
   const inputName = (document.getElementById('input_name') as HTMLInputElement);
   const inputLastName = (document.getElementById('input_lastname') as HTMLInputElement);
   const inputEmail = (document.getElementById('input_email') as HTMLInputElement);
-  const [nameProps, setnameProps] = useState({error: true})
+  const [errorInput, setErroInput] = useState({name: false, lastName: false, email: false})
   const [currentIndex, setCurrentIndex] = useState(0)
   let userInfo = {
     id: 0,
@@ -37,12 +38,22 @@ const ModalUserAdd = ({ modal, setModal }: IProps)  => {
   function handleInputs(event:any, target:string) {
     if(target === 'name'){
       setUser({...user, name: event.currentTarget.value})
+      console.log('event.currentTarget.value ', event.currentTarget.value)
+      if(event.currentTarget.value !== ''){
+        setErroInput({...errorInput, name: false})
+      }
     }
     if(target === 'lastname'){
       setUser({...user, lastname: event.currentTarget.value})
+      if(event.currentTarget.value !== ''){
+        setErroInput({...errorInput, lastName: false})
+      }
     }
     if(target === 'email'){
       setUser({...user, email: event.currentTarget.value})
+      if(event.currentTarget.value !== ''){
+        setErroInput({...errorInput, email: false})
+      }
     }
   }
 
@@ -56,8 +67,17 @@ const ModalUserAdd = ({ modal, setModal }: IProps)  => {
     if(user.name !== '' && user.lastname !== '' && user.email !== ''){
       return true;
     }
-    setnameProps({error: true})
-    console.log('se modifcaron los prop ', nameProps)
+    setErroInput({name: true, lastName: true, email: true})
+    if(user.name !== ''){
+      setErroInput({...errorInput, name: false})
+    }
+    if(user.lastname !== ''){
+      setErroInput({...errorInput, lastName: false})
+    }
+    if(user.email !== ''){
+      setErroInput({...errorInput, email: false})
+    }
+    console.log('se modifcaron los prop ', errorInput)
     return false;
   }
 
@@ -74,9 +94,9 @@ const ModalUserAdd = ({ modal, setModal }: IProps)  => {
             <h1>Agregar Usuario</h1>
             <div>
               {/* inputProps={nameProps} */}
-              <TextField inputProps={nameProps} required id='input_name' onChange={(e) => handleInputs(e,'name')} className="user-modal-input" variant="outlined" label="first name"></TextField>
-              <TextField required id='input_lastname' onChange={(e) => handleInputs(e,'lastname')} className="user-modal-input" variant="outlined" label="last name"></TextField>
-              <TextField required id='input_email' onChange={(e) => handleInputs(e,'email')} className="user-modal-input" variant="outlined" label="email"></TextField>
+              <TextField error={errorInput.name} required id='input_name' onChange={(e) => handleInputs(e,'name')} className="user-modal-input" variant="outlined" label="first name"></TextField>
+              <TextField error={errorInput.lastName} required id='input_lastname' onChange={(e) => handleInputs(e,'lastname')} className="user-modal-input" variant="outlined" label="last name"></TextField>
+              <TextField error={errorInput.email} required id='input_email' onChange={(e) => handleInputs(e,'email')} className="user-modal-input" variant="outlined" label="email"></TextField>
             </div>
 
             <div className="actions">

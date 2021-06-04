@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import { Paper, Avatar, Tooltip, IconButton } from '@material-ui/core';
 import { Delete, Close, Done } from '@material-ui/icons';
 import UserContext from '../context/userContext'
+import { Link } from 'react-router-dom'
 
 interface IProps{
     userInfo: any;
@@ -23,7 +24,9 @@ const User = ({ userInfo }: IProps) => {
             <Paper className="user-row" elevation={3}>
                 <div className="left-side">
                     <div className={`avatar__container ${userInfo.active ? 'is_active' : ''}`} >
-                        <Avatar src={userInfo.avatar} />
+                        <Link to={`/user/${userInfo.id}`}>
+                            <Avatar src={userInfo.avatar} />
+                        </Link>
                     </div>
                     <div className="user-name-container">
                         <span className="user-name">{userInfo.name}</span>

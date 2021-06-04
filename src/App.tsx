@@ -1,12 +1,11 @@
 import UsersProvider from './components/usersProvider'
-import Layout from './components/Layout'
-
+import { Router } from './router/router'
 
 function App() {
 
   return (
-    <UsersProvider>  
-      <Layout />
+    <UsersProvider>
+      <Router />
     </UsersProvider>
   );
 }
