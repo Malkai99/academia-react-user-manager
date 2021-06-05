@@ -9,7 +9,6 @@ import SingleUser from '../components/singleUser'
 export const Router = () => {
 
     const getSingleUser = ({ match }:any) => {
-        // console.log('match ', match)
         return <SingleUser id={match.params.id} />
     }
 
