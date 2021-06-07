@@ -37,7 +37,6 @@ const ModalUserAdd = ({ modal, setModal }: IProps)  => {
   function handleInputs(event:any, target:string) {
     if(target === 'name'){
       setUser({...user, name: event.currentTarget.value})
-      console.log('event.currentTarget.value ', event.currentTarget.value)
       if(event.currentTarget.value !== ''){
         setErroInput({...errorInput, name: false})
       }

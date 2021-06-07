@@ -1,14 +1,30 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import User from './User';
 import UserContext from '../context/userContext'
+import paginationContext from '../context/paginationContext';
 
 const UsersList = () => {
 
-    const { usersList  }:any = useContext(UserContext);
+    const { usersList, usersBlocks  }:any = useContext(UserContext);
+    const { page, getBlockUsers  }:any = useContext(paginationContext);
+    const [blockUsers, setBlockUsers] = useState(getBlockUsers(usersList));
+
+    useEffect(() => {
+        if(blockUsers.length > 0) return
+        setBlockUsers(getBlockUsers(usersList))
+    }, [usersList]);
+
+    useEffect(() => {
+        setBlockUsers(getBlockUsers(usersList))
+    }, [page]);
+
+    useEffect(() => {
+        setBlockUsers(getBlockUsers(usersBlocks));
+    }, [usersBlocks]);
 
     function getUserList():any{
         return(
-            usersList.map( (user:any) => {
+            blockUsers.map( (user:any) => {
                 return <User key={user.id} userInfo={user} />
             })  
         );
@@ -18,7 +34,7 @@ const UsersList = () => {
 
         <div className="users-list">
             {
-               usersList && getUserList()
+               blockUsers && getUserList()
             }
         </div>
     )

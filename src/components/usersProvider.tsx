@@ -1,4 +1,3 @@
-import React from 'react'
 import { useUsersList } from '../hooks/useUsersList'
 import UserContext from '../context/userContext'
 

@@ -88,3 +88,27 @@
     top: 30px;
     left: 15%;
 }
+
+.users-list{
+    position: relative;
+    width: auto;
+    min-height: 500px;
+}
+
+.filter__container{
+    margin: 30px 0 30px 10px;
+}
+
+.filter__container .filter-input{
+    width: 50%;
+}
+
+.filter__container .fieldset__container{
+    position: relative;
+    margin: 0 20px;
+}
+
+.fieldset__container .radio__container{
+    display: flex;
+    flex-direction: row;
+}

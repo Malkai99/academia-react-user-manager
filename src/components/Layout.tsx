@@ -5,7 +5,8 @@ import ModalAddUser from '../components/ModalUserAdd'
 // import { reducer } from '../context/userReducer'
 import UserContext from '../context/userContext'
 import '../App.css';
-
+import Paginator from './Paginator'
+import Filter from './Filter'
 
 
 const Layout = () => {
@@ -23,7 +24,9 @@ const Layout = () => {
         <h1>User Manager {usersList.length}</h1>
         <Button variant="contained" color="primary" onClick={handleModal} >Agregar</Button>
       </div>
+      <Filter />
       <UsersList />
+      <Paginator />
       <ModalAddUser modal={openModal} setModal={setModal} />
     </>
   );

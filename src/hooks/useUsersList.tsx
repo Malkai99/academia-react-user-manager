@@ -3,10 +3,15 @@ import { User } from '../types/user.interface'
 
 export const useUsersList = () => {
     const [usersList, setUserData] = useState<User[]>([]);
+    const [usersBlocks, setUsersBlocks] = useState<User[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const urlToFetch = "http://localhost:3001/users"
-
+    const status:any = {
+        ['all']: 'all',
+        ['online']: true,
+        ['offline']: false
+    }
 
     useEffect(() => {
         const fetchData = () => {
@@ -139,5 +144,18 @@ export const useUsersList = () => {
         )
     }
 
-    return { usersList, error, isLoading, addUser, deleteUser, modifyUserState, getSingleUser};
+    function filterBySearch(value:string) {
+        let users = usersList.filter( (user:any) => (user.name.toLowerCase().indexOf(value) != -1) || (user.lastname.toLowerCase().indexOf(value) != -1) )
+        setUsersBlocks(users)
+        // console.log('users ', users)
+    }
+
+    function filterByStatus(value:any) {
+        const filterStatus = status[value]
+        let users = filterStatus === 'all' ? usersList : usersList.filter( (user:any) => (user.active == filterStatus))
+        setUsersBlocks(users)
+        // console.log('filter by status ', users)
+    }
+
+    return { usersList, usersBlocks, error, isLoading, addUser, deleteUser, modifyUserState, getSingleUser, filterBySearch, filterByStatus};
 }

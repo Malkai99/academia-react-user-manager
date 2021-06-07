@@ -1,11 +1,14 @@
 import UsersProvider from './components/usersProvider'
+import PaginationProvider from './providers/PaginationProvider'
 import { Router } from './router/router'
 
 function App() {
 
   return (
     <UsersProvider>
-      <Router />
+      <PaginationProvider>
+        <Router />
+      </PaginationProvider>
     </UsersProvider>
   );
 }
