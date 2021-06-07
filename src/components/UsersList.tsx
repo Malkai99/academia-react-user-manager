@@ -15,7 +15,7 @@ const UsersList = () => {
     }, [usersList]);
 
     useEffect(() => {
-        setBlockUsers(getBlockUsers(usersList))
+        setBlockUsers(getBlockUsers(usersBlocks))
     }, [page]);
 
     useEffect(() => {

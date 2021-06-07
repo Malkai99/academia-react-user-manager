@@ -22,6 +22,7 @@ export const useUsersList = () => {
                .then(
                    (result) => {
                        setUserData(result)
+                       setUsersBlocks(result)
                        setIsLoading(false)
                    },
                    (error) => {
@@ -145,7 +146,12 @@ export const useUsersList = () => {
     }
 
     function filterBySearch(value:string) {
-        let users = usersList.filter( (user:any) => (user.name.toLowerCase().indexOf(value) != -1) || (user.lastname.toLowerCase().indexOf(value) != -1) )
+        let users;
+        if(value === ''){
+            users = usersList;
+        }else{
+            users = usersBlocks.filter( (user:any) => (user.name.toLowerCase().indexOf(value) != -1) || (user.lastname.toLowerCase().indexOf(value) != -1) )
+        }
         setUsersBlocks(users)
         // console.log('users ', users)
     }
@@ -154,7 +160,11 @@ export const useUsersList = () => {
         const filterStatus = status[value]
         let users = filterStatus === 'all' ? usersList : usersList.filter( (user:any) => (user.active == filterStatus))
         setUsersBlocks(users)
-        // console.log('filter by status ', users)
+        console.log('filter by status ', users)
+    }
+
+    function resetUsersBlocks() {
+        setUsersBlocks(usersList)
     }
 
     return { usersList, usersBlocks, error, isLoading, addUser, deleteUser, modifyUserState, getSingleUser, filterBySearch, filterByStatus};

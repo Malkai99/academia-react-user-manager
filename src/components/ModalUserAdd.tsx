@@ -75,7 +75,6 @@ const ModalUserAdd = ({ modal, setModal }: IProps)  => {
     if(user.email !== ''){
       setErroInput({...errorInput, email: false})
     }
-    console.log('se modifcaron los prop ', errorInput)
     return false;
   }
 

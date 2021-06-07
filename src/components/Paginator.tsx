@@ -7,7 +7,7 @@ import UserContext from '../context/userContext';
 import paginationContext from '../context/paginationContext';
 
 const Paginator = () => {
-    const { usersList, usersBlocks }:any = useContext(UserContext);
+    const { usersBlocks }:any = useContext(UserContext);
     const { itemsPerPage, setPage }:any = useContext(paginationContext);
 
     function handlePage(event:any, value:any) {
