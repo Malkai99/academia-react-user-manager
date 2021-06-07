@@ -6,11 +6,12 @@ import paginationContext from '../context/paginationContext';
 const UsersList = () => {
 
     const { usersList, usersBlocks  }:any = useContext(UserContext);
-    const { page, getBlockUsers  }:any = useContext(paginationContext);
+    const { page, setPage, getBlockUsers  }:any = useContext(paginationContext);
     const [blockUsers, setBlockUsers] = useState(getBlockUsers(usersList));
 
     useEffect(() => {
-        if(blockUsers.length > 0) return
+        // if(blockUsers.length > 0) return
+        console.log('change userList ', usersList)
         setBlockUsers(getBlockUsers(usersList))
     }, [usersList]);
 
@@ -21,6 +22,11 @@ const UsersList = () => {
     useEffect(() => {
         setBlockUsers(getBlockUsers(usersBlocks));
     }, [usersBlocks]);
+
+    function handleChangeUsersBlocks(users:any) {
+        setPage(1)
+        setBlockUsers(getBlockUsers(users));
+    }
 
     function getUserList():any{
         return(

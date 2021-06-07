@@ -26,14 +26,24 @@ const ModalUserAdd = ({ modal, setModal }: IProps)  => {
   const [user, setUser] = useState(userInfo)
 
   useEffect(() => {
-    setCurrentIndex(usersList.length + 1)
+    if( usersList.length == 0 ) return;
+    setCurrentIndex(getLastestIndex(usersList) + 1)
   }, [usersList]);
 
   useEffect(() => {
     setUser({...user, id: currentIndex});
   }, [currentIndex]);
 
+  function getLastestIndex(array:any) {
+    let indexsArray:any = []
+    usersList.map((user:any) => {
+      indexsArray.push(parseInt(user.id))
+    });
+    const lastestIndex = indexsArray.sort((a:any, b:any) => { return b - a })
 
+    return lastestIndex[0]
+  }
+  
   function handleInputs(event:any, target:string) {
     if(target === 'name'){
       setUser({...user, name: event.currentTarget.value})
@@ -90,7 +100,6 @@ const ModalUserAdd = ({ modal, setModal }: IProps)  => {
           <div className="add-user-modal">
             <h1>Agregar Usuario</h1>
             <div>
-              {/* inputProps={nameProps} */}
               <TextField error={errorInput.name} required id='input_name' onChange={(e) => handleInputs(e,'name')} className="user-modal-input" variant="outlined" label="first name"></TextField>
               <TextField error={errorInput.lastName} required id='input_lastname' onChange={(e) => handleInputs(e,'lastname')} className="user-modal-input" variant="outlined" label="last name"></TextField>
               <TextField error={errorInput.email} required id='input_email' onChange={(e) => handleInputs(e,'email')} className="user-modal-input" variant="outlined" label="email"></TextField>

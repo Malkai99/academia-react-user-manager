@@ -2,16 +2,18 @@ import { useState, useEffect} from 'react'
 import { User } from '../types/user.interface'
 
 export const useUsersList = () => {
-    const [usersList, setUserData] = useState<User[]>([]);
-    const [usersBlocks, setUsersBlocks] = useState<User[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const urlToFetch = "http://localhost:3001/users"
     const status:any = {
         ['all']: 'all',
         ['online']: true,
         ['offline']: false
     }
+    const [usersList, setUserData] = useState<User[]>([]);
+    const [usersBlocks, setUsersBlocks] = useState<User[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [filterStatus, setFilterStatus] = useState(status['all'])
+    const urlToFetch = "http://localhost:3001/users"
+    
 
     useEffect(() => {
         const fetchData = () => {
@@ -33,6 +35,10 @@ export const useUsersList = () => {
         }
         fetchData()
     }, []);
+
+    useEffect(() => {
+        // console.log('se movio user data ', usersList)
+    }, [usersBlocks]);
 
     // useEffect(() => {
     //     // console.log('se movio user data ', usersList)
@@ -146,11 +152,10 @@ export const useUsersList = () => {
     }
 
     function filterBySearch(value:string) {
-        let users;
-        if(value === ''){
-            users = usersList;
-        }else{
-            users = usersBlocks.filter( (user:any) => (user.name.toLowerCase().indexOf(value) != -1) || (user.lastname.toLowerCase().indexOf(value) != -1) )
+        console.log('fitler status ', filterStatus)
+        let users = filterStatus === 'all' ? usersList : usersList.filter( (user:any) => (user.active == filterStatus));
+        if(value !== ''){
+            users = users.filter( (user:any) => (user.name.toLowerCase().indexOf(value) != -1) || (user.lastname.toLowerCase().indexOf(value) != -1) )
         }
         setUsersBlocks(users)
         // console.log('users ', users)
@@ -160,11 +165,8 @@ export const useUsersList = () => {
         const filterStatus = status[value]
         let users = filterStatus === 'all' ? usersList : usersList.filter( (user:any) => (user.active == filterStatus))
         setUsersBlocks(users)
+        setFilterStatus(filterStatus)
         console.log('filter by status ', users)
-    }
-
-    function resetUsersBlocks() {
-        setUsersBlocks(usersList)
     }
 
     return { usersList, usersBlocks, error, isLoading, addUser, deleteUser, modifyUserState, getSingleUser, filterBySearch, filterByStatus};
